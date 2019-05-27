@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ShadoLayout">
+        <!--阴影的宽度-->
+        <attr name="shadow_width" format="dimension"/>
+        <!--阴影的颜色-->
+        <attr name="shadow_color" format="color"/>
+        <!--边框的宽度-->
+        <attr name="border_width" format="dimension"/>
+        <!--边框的颜色-->
+        <attr name="border_color" format="color"/>
+        <!--边框的圆角-->
+        <attr name="border_Radius" format="dimension"/>
+        <!--显示阴影的边-->
+
+        <attr name="shadow_sides">
+            <enum name="TOP" value="1"/>
+            <enum name="RIGHT" value="2"/>
+            <enum name="BOTTOM" value="4"/>
+            <enum name="LEFT" value="8"/>
+            <enum name="ALL" value="15"/>
+        </attr>
+        <!--阴影x轴偏移量-->
+        <attr name="offset_X" format="dimension"/>
+        <!--阴影y轴偏移量-->
+        <attr name="offset_Y" format="dimension"/>
+    </declare-styleable>
+</resources>

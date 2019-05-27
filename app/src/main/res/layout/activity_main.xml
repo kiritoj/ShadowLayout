@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.example.mifans.shadolayoutdemo.ShadowLayout
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        app:shadow_width="12dp"
+        app:border_width="4dp"
+        app:border_color="#FFF200"
+        app:border_Radius="10dp"
+        app:shadow_color="@color/colorPrimaryDark">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="测试"
+            android:gravity="center"
+            android:background="@color/colorPrimary"
+            android:layout_gravity="center"/>
+
+    </com.example.mifans.shadolayoutdemo.ShadowLayout>
+
+</RelativeLayout>

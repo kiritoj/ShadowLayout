@@ -8,14 +8,15 @@
 
     <com.example.mifans.shadolayoutdemo.ShadowLayout
         android:layout_width="300dp"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:layout_centerInParent="true"
-        app:shadow_width="50dp"
-        app:shadow_color="#808080"
-        app:border_width="10dp"
-        app:border_color="#FFF200"
-        app:border_Radius="60dp"
-        >
+        app:shadow_width="10dp"
+        app:shadow_color="#1A1A1A"
+        app:border_width="3dp"
+        app:border_color="#FF0000"
+        app:border_Radius="10dp"
+
+        app:offset_X="40dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -23,7 +24,8 @@
             android:text="测试"
             android:gravity="center"
             android:background="@color/colorPrimary"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:textColor="#FFFFFF"/>
 
     </com.example.mifans.shadolayoutdemo.ShadowLayout>
 

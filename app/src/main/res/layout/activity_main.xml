@@ -16,18 +16,27 @@
         app:border_color="#FF0000"
         app:border_Radius="10dp"
 
-        app:offset_X="40dp">
+        app:offset_Y="20dp"
+        app:offset_X="10dp">
 
         <TextView
+            android:id="@+id/testview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="测试"
             android:gravity="center"
-            android:background="@color/colorPrimary"
+            android:background="#F8A1A4"
             android:layout_gravity="center"
-            android:textColor="#FFFFFF"/>
+           />
+        <!--<Button-->
+            <!--android:id="@+id/button"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="ceshi"-->
+            <!--android:background="@color/colorPrimaryDark"/>-->
 
     </com.example.mifans.shadolayoutdemo.ShadowLayout>
+
 
 
 </RelativeLayout>

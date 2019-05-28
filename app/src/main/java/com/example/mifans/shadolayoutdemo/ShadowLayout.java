@@ -57,7 +57,7 @@ public class ShadowLayout extends FrameLayout {
     //画笔
     private Paint borderPaint;
 
-    //边框矩形
+    //阴影矩形
     private RectF borderRecf;
 
     //图像混合模式
@@ -92,9 +92,8 @@ public class ShadowLayout extends FrameLayout {
 
         //初始化画笔
         borderPaint = new Paint();
-        borderPaint.setColor(borderColor);
-        borderPaint.setStrokeWidth(borderWidth);
-        borderPaint.setStyle(Paint.Style.STROKE);
+        borderPaint.setColor(Color.WHITE);
+        borderPaint.setStrokeWidth(0);
         borderPaint.setShadowLayer(shadowWidth, offsetX, offsetY, shadowColor);
 
 
@@ -120,10 +119,10 @@ public class ShadowLayout extends FrameLayout {
         height = h;
 
         //边界矩形四个角的位置
-        float left = judgSide(SHADOW_LEFT) ? getPaddingLeft() : 0f;
-        float top = judgSide(SHADOW_TOP) ? getPaddingTop() : 0f;
-        float right = judgSide(SHADOW_RIGHT) ? (w - getPaddingRight()) : w;
-        float bottom = judgSide(SHADOW_BOTTOM) ? (h - getPaddingBottom()) : h;
+        float left = getPaddingLeft();
+        float top = getPaddingTop();
+        float right = w-getPaddingRight();
+        float bottom = h-getPaddingBottom();
         borderRecf = new RectF(left, top, right, bottom);
 
     }
@@ -142,12 +141,15 @@ public class ShadowLayout extends FrameLayout {
         //设置合成模式
         xfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
         borderPaint.setXfermode(xfermode);
-        borderPaint.setStrokeWidth(0);
         //绘制xfermode的源图像
         canvas.drawBitmap(getSrcBitmap(), getPaddingLeft(), getPaddingTop(), borderPaint);
+
+        canvas.drawRoundRect(borderRecf,borderRadius,borderRadius,borderPaint);
         borderPaint.setXfermode(null);
         canvas.restore();
         //再绘制一遍边框，绘制阴影时候的边框被子view挡住了
+        borderPaint.setColor(borderColor);
+        borderPaint.setStyle(Paint.Style.STROKE);
         borderPaint.setStrokeWidth(borderWidth);
         borderPaint.clearShadowLayer();
         canvas.drawRoundRect(borderRecf, borderRadius, borderRadius, borderPaint);
@@ -162,18 +164,17 @@ public class ShadowLayout extends FrameLayout {
     public Bitmap getSrcBitmap() {
         Bitmap bitmap = Bitmap.createBitmap((int) borderRecf.width(), (int) borderRecf.height(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
-        p.setColor(Color.BLUE);
+        Paint p = new Paint();
+        p.setColor(Color.BLACK);
+
+        //这里有问题
         canvas.drawRoundRect(0, 0, borderRecf.width(), borderRecf.height(), borderRadius, borderRadius, p);
         return bitmap;
     }
 
     //绘制阴影
     public void drawshadow(Canvas canvas) {
-        canvas.save();
-
         canvas.drawRoundRect(borderRecf, borderRadius, borderRadius, borderPaint);
-        canvas.restore();
 
     }
 

@@ -5,7 +5,12 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
+import android.graphics.Xfermode;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -53,12 +58,17 @@ public class ShadowLayout extends FrameLayout {
     //边框矩形
     private RectF borderRecf;
 
+    //图像混合模式
+
+    private Xfermode xfermode;
     private Context context;
     public ShadowLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         init(context,attrs);
+        processPadding();
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);//关闭硬件加速
+
 
     }
 
@@ -84,7 +94,21 @@ public class ShadowLayout extends FrameLayout {
 
 
 
+
     }
+
+    public void processPadding(){
+        int paddingx = (int)(shadowWidth+Math.abs(offsetX));
+        int paddingy = (int) (shadowWidth+Math.abs(offsetY));
+        setPadding(judgSide(SHADOW_LEFT)?paddingx:0
+                ,judgSide(SHADOW_TOP)?paddingy:0
+                ,judgSide(SHADOW_RIGHT)?paddingx:0
+                ,judgSide(SHADOW_BOTTOM)?paddingy:0);
+
+
+    }
+
+
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -93,25 +117,43 @@ public class ShadowLayout extends FrameLayout {
         height = h;
 
         //矩形四个角的位置
-        float left = judgSide(SHADOW_LEFT)?(shadowWidth+Math.abs(offsetX)):0f;
-        float top = judgSide(SHADOW_TOP)?(shadowWidth+Math.abs(offsetY)):0f;
-        float right = judgSide(SHADOW_RIGHT)?(w-shadowWidth-Math.abs(offsetX)):0f;
-        float bottom = judgSide(SHADOW_BOTTOM)?(h-shadowWidth-Math.abs(offsetY)):0f;
+        float left = judgSide(SHADOW_LEFT)?getPaddingLeft():0f;
+        float top = judgSide(SHADOW_TOP)?getPaddingTop():0f;
+        float right = judgSide(SHADOW_RIGHT)?(w-getPaddingRight()):0f;
+        float bottom = judgSide(SHADOW_BOTTOM)?(h-getPaddingBottom()):0f;
         borderRecf = new RectF(left,top,right,bottom);
 
     }
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            canvas.saveLayer(0,0,width,height,borderPaint);
+        }
         super.dispatchDraw(canvas);
+        xfermode = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
+        borderPaint.setXfermode(xfermode);
+        borderPaint.setStrokeWidth(1);
+        borderPaint.setStyle(Paint.Style.FILL);
+        Path path = new Path();
+        path.addRoundRect(borderRecf,50,50,Path.Direction.CCW);
+        canvas.drawPath(path,borderPaint);
+        canvas.restore();
         drawshadow(canvas);
+
+
+
+
+
     }
+
+
 
     //绘制阴影
     public void drawshadow(Canvas canvas){
-        canvas.save();
         canvas.drawRoundRect(borderRecf,borderRadius,borderRadius,borderPaint);
-        canvas.restore();
+
     }
     //判断某一边是否绘制阴影
     public boolean judgSide(int side){

@@ -166,8 +166,6 @@ public class ShadowLayout extends FrameLayout {
         Canvas canvas = new Canvas(bitmap);
         Paint p = new Paint();
         p.setColor(Color.BLACK);
-
-        //这里有问题
         canvas.drawRoundRect(0, 0, borderRecf.width(), borderRecf.height(), borderRadius, borderRadius, p);
         return bitmap;
     }

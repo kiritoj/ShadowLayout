@@ -1,5 +1,8 @@
 # ShadowLayout
 阴影布局
+* 用path的布尔操作代替了drawBitmap。避免在draw方法里new对象
+* 解决点击button阴影消失
++++
 ## 效果图
 * 阴影偏移
 * 四周阴影

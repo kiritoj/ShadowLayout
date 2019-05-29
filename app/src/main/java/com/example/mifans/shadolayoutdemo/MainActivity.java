@@ -14,12 +14,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //testView = findViewById(R.id.test_view);
-        TextView button = findViewById(R.id.testview);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"testtesttest",Toast.LENGTH_SHORT).show();
-            }
-        });
+//        TextView button = findViewById(R.id.testview);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(MainActivity.this,"testtesttest",Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }

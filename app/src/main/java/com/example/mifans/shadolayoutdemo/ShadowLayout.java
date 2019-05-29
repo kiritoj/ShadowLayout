@@ -142,6 +142,7 @@ public class ShadowLayout extends FrameLayout {
         xfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
         borderPaint.setXfermode(xfermode);
         //绘制xfermode的源图像
+        borderPaint.clearShadowLayer();
         canvas.drawBitmap(getSrcBitmap(), getPaddingLeft(), getPaddingTop(), borderPaint);
 
         canvas.drawRoundRect(borderRecf,borderRadius,borderRadius,borderPaint);
@@ -151,7 +152,6 @@ public class ShadowLayout extends FrameLayout {
         borderPaint.setColor(borderColor);
         borderPaint.setStyle(Paint.Style.STROKE);
         borderPaint.setStrokeWidth(borderWidth);
-        borderPaint.clearShadowLayer();
         canvas.drawRoundRect(borderRecf, borderRadius, borderRadius, borderPaint);
 
 

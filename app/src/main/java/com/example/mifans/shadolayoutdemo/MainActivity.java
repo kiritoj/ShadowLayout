@@ -8,18 +8,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    TestView testView;
+    TextView testView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //testView = findViewById(R.id.test_view);
-//        TextView button = findViewById(R.id.testview);
+        testView = findViewById(R.id.testview);
+//        Button button = findViewById(R.id.button);
 //        button.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                Toast.makeText(MainActivity.this,"testtesttest",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this,"testbutton",Toast.LENGTH_SHORT).show();
 //            }
 //        });
+        testView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"testtext",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
     }
 }

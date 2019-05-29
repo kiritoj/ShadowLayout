@@ -14,9 +14,9 @@ import android.graphics.Xfermode;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-
 
 
 public class ShadowLayout extends FrameLayout {
@@ -57,6 +57,11 @@ public class ShadowLayout extends FrameLayout {
     //画笔
     private Paint borderPaint;
 
+    //边界path和内容区path
+    private Path borderPath;
+    private Path contentPath;
+
+
     //阴影矩形
     private RectF borderRecf;
 
@@ -92,10 +97,14 @@ public class ShadowLayout extends FrameLayout {
 
         //初始化画笔
         borderPaint = new Paint();
-        borderPaint.setColor(Color.WHITE);
-        borderPaint.setStrokeWidth(0);
+        borderPaint.setColor(borderColor);
+        borderPaint.setStrokeWidth(borderWidth);
         borderPaint.setShadowLayer(shadowWidth, offsetX, offsetY, shadowColor);
 
+        borderPath = new Path();
+        contentPath = new Path();
+
+        xfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_OUT);
 
     }
 
@@ -121,9 +130,14 @@ public class ShadowLayout extends FrameLayout {
         //边界矩形四个角的位置
         float left = getPaddingLeft();
         float top = getPaddingTop();
-        float right = w-getPaddingRight();
-        float bottom = h-getPaddingBottom();
+        float right = w - getPaddingRight();
+        float bottom = h - getPaddingBottom();
         borderRecf = new RectF(left, top, right, bottom);
+
+        //通过画笔的布尔操作，截取出子view四个角
+        borderPath.addRect(borderRecf, Path.Direction.CCW);
+        contentPath.addRoundRect(borderRecf, borderRadius, borderRadius, Path.Direction.CCW);
+        borderPath.op(contentPath, Path.Op.DIFFERENCE);
 
     }
 
@@ -139,13 +153,10 @@ public class ShadowLayout extends FrameLayout {
         //绘制子view，作为xfermode的目标图像
         super.dispatchDraw(canvas);
         //设置合成模式
-        xfermode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
         borderPaint.setXfermode(xfermode);
         //绘制xfermode的源图像
+        canvas.drawPath(borderPath, borderPaint);
         borderPaint.clearShadowLayer();
-        canvas.drawBitmap(getSrcBitmap(), getPaddingLeft(), getPaddingTop(), borderPaint);
-
-        canvas.drawRoundRect(borderRecf,borderRadius,borderRadius,borderPaint);
         borderPaint.setXfermode(null);
         canvas.restore();
         //再绘制一遍边框，绘制阴影时候的边框被子view挡住了
@@ -154,7 +165,8 @@ public class ShadowLayout extends FrameLayout {
         borderPaint.setStrokeWidth(borderWidth);
         canvas.drawRoundRect(borderRecf, borderRadius, borderRadius, borderPaint);
 
-
+        //一定要重置画笔状态，button点击后会重新调用本方法，画笔的阴影，粗细，颜色回归第一次调用的时候
+        resetPaint();
 
 
     }
@@ -167,7 +179,6 @@ public class ShadowLayout extends FrameLayout {
         Paint p = new Paint();
         p.setColor(Color.BLACK);
 
-        //这里有问题
         canvas.drawRoundRect(0, 0, borderRecf.width(), borderRecf.height(), borderRadius, borderRadius, p);
         return bitmap;
     }
@@ -181,6 +192,12 @@ public class ShadowLayout extends FrameLayout {
     //判断某一边是否绘制阴影
     public boolean judgSide(int side) {
         return (shadowSides | side) == shadowSides;
+    }
+
+    public void resetPaint() {
+        borderPaint.setStyle(Paint.Style.FILL);
+        borderPaint.setStrokeWidth(0);
+        borderPaint.setShadowLayer(shadowWidth, offsetX, offsetY, shadowColor);
     }
 
 }

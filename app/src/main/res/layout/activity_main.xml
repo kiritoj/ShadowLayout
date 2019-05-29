@@ -17,7 +17,8 @@
         app:border_Radius="30dp"
         app:shadow_sides="ALL"
         app:offset_Y="10dp"
-        app:offset_X="20dp">
+        app:offset_X="20dp"
+        >
 
         <TextView
             android:id="@+id/testview"
@@ -29,10 +30,11 @@
             android:layout_gravity="center"
            />
         <!--<Button-->
+            <!--android:id="@+id/button"-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="match_parent"-->
             <!--android:text="ceshi"-->
-            <!--android:background="@color/colorPrimaryDark"/>-->
+            <!--android:background="@color/colorPrimary"/>-->
 
 
     </com.example.mifans.shadolayoutdemo.ShadowLayout>
